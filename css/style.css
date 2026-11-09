@@ -1,0 +1,122 @@
+:root{font-family:"DM Sans","Noto Sans KR",sans-serif;color:#f8f5ed;background:#111a24;font-synthesis:none;text-rendering:optimizeLegibility}
+*{box-sizing:border-box}
+html,body,#game{width:100%;height:100%;margin:0;overflow:hidden}
+body{user-select:none}
+#scene{position:absolute;inset:0}
+#scene canvas{display:block;width:100%;height:100%}
+.hud{position:absolute;inset:0;pointer-events:none}
+.hud.score-mode .progress-track{display:none}
+.hud-top{position:absolute;left:28px;right:28px;top:21px;display:flex;justify-content:space-between;align-items:flex-start}
+.brand{display:flex;flex-direction:column;gap:2px;text-shadow:0 2px 15px #101a2d80}
+.brand strong{font:clamp(18px,2.1vw,29px) "Black Han Sans",sans-serif;letter-spacing:1px}
+.brand i{font-style:normal;color:#ffbb69}
+.brand span{font-size:9px;font-weight:900;letter-spacing:3px;color:#f2d4a9}
+.race-info{display:flex;justify-content:flex-end;align-items:stretch;gap:8px}
+.distance-box{min-width:146px;padding:10px 15px;border:1px solid #fff4;border-radius:12px;background:#17212bc9;backdrop-filter:blur(8px);text-align:left}
+.distance-box span,.score-chip span{display:block;color:#aab8c5;font-size:9px;font-weight:800;letter-spacing:1.3px}
+.distance-box strong{font:24px "Black Han Sans",sans-serif;white-space:nowrap}
+.distance-box small{font:10px "DM Sans",sans-serif;color:#aab8c5}
+.progress-track{position:absolute;left:50%;top:32px;transform:translateX(-50%);width:min(310px,32vw);height:5px;border-radius:4px;background:#fff5;overflow:hidden}
+.progress-track span{display:block;width:0;height:100%;background:linear-gradient(90deg,#ff743e,#ffd27a);transition:width .12s}
+.score-chip{padding:10px 14px;border:1px solid #fff3;border-radius:12px;background:#17212bc9;backdrop-filter:blur(8px);text-align:left}
+.score-chip strong{font:25px "Black Han Sans",sans-serif;color:#ffd27a}
+.score-chip small{color:#aab8c5;font-size:10px}
+.taste-score-chip{display:block}
+.taste-score-chip strong{color:#ff9b72}
+.cook-hud{position:absolute;left:25px;bottom:76px;width:240px;padding:11px 12px;border:1px solid #ffffff3b;border-radius:16px;background:linear-gradient(145deg,#17212be8,#1f282bdc);box-shadow:0 12px 35px #0e162a65;backdrop-filter:blur(10px);transition:border-color .2s,box-shadow .2s}
+.cook-hud.ready-to-flip{border-color:#ff9d49;box-shadow:0 0 25px #ff793d60,0 12px 35px #0e162a65}
+.cook-title{display:flex;justify-content:space-between;align-items:center;font-size:11px;font-weight:900;letter-spacing:.8px}
+.cook-title span:first-child{color:#ffd27a}
+.cook-meter{position:relative;height:7px;margin-top:9px;overflow:hidden;border:1px solid #ffffff55;border-radius:5px;background:#ffffff12}
+.cook-meter span{display:block;width:0;height:100%;border-radius:4px;background:#fff;transition:width .2s}
+.cook-target{position:absolute;top:-1px;bottom:-1px;left:50%;width:25%;border:1px solid #ffd17a;border-radius:4px;pointer-events:none}
+.toast{position:absolute;top:135px;left:50%;transform:translate(-50%,-8px);padding:10px 16px;border:1px solid #ffffff24;border-radius:30px;background:#171e2be8;font-size:12px;font-weight:800;opacity:0;transition:.2s}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.control-hint{position:absolute;bottom:27px;left:27px;display:flex;align-items:center;gap:6px;color:#fff9;font-size:10px;font-weight:700;text-shadow:0 2px 8px #000}
+kbd{padding:5px 7px;border:1px solid #fff5;border-radius:5px;background:#15202ca8;color:#fff;font:700 9px "DM Sans",sans-serif}
+.speed-lines{position:absolute;inset:0;pointer-events:none;opacity:0;background:radial-gradient(ellipse at center,transparent 35%,#fff0 50%,#d1ebff55 100%);transition:opacity .5s}
+.speed-lines.fast{opacity:.55}
+.collision-flash{position:absolute;inset:0;z-index:10;pointer-events:none;opacity:0;background:rgba(255,118,38,.28)}
+.collision-flash.active{animation:collision-flash .45s ease-in-out}
+.screen{position:absolute;inset:0;display:grid;place-items:center;padding:20px;background:linear-gradient(180deg,#0d172042,#09121bd9);backdrop-filter:blur(4px)}
+.hidden{display:none!important}
+.start-panel,.result-panel{width:min(620px,94vw);padding:32px 38px;border:1px solid #ffffff32;border-radius:24px;background:linear-gradient(145deg,#1d2b37f5,#111b26f7);box-shadow:0 30px 100px #0009;text-align:center}
+.eyebrow{color:#ffb76a;font-size:9px;font-weight:900;letter-spacing:2.2px}
+.start-hero-row{display:flex;align-items:center;justify-content:center;gap:8px;min-height:170px;margin:2px 0 4px}
+.start-panel h1{margin:8px 0 10px;font:clamp(38px,7vw,76px)/.78 "Black Han Sans",sans-serif;letter-spacing:1px;text-shadow:0 7px 30px #0005}
+.start-skater{width:min(166px,31vw);height:auto;flex:none;filter:drop-shadow(0 10px 12px #0005)}
+.start-panel h1 span{display:inline-block;color:#ffb76a;font-size:.88em;white-space:nowrap}
+.start-panel p{color:#c4cbd0;font-size:13px;line-height:1.7;margin:15px 0 20px}
+.instructions{display:grid;gap:7px;margin:0 0 20px;text-align:left}
+.instructions div{display:flex;align-items:center;gap:11px;padding:9px 11px;border:1px solid #fff1;border-radius:10px;background:#ffffff08}
+.instructions b{min-width:92px;color:#ffd17a;font-size:10px}
+.instructions span{color:#d1d6d8;font-size:10px}
+.primary-button{position:relative;display:inline-flex;flex-direction:column;justify-content:center;align-items:center;gap:2px;min-width:230px;min-height:61px;padding:8px 22px;border:0;border-radius:11px;background:linear-gradient(110deg,#ff7745,#f59b53);box-shadow:0 5px 0 #b94b31;color:#fff;font:19px/1 "Black Han Sans",sans-serif;text-align:center;cursor:pointer;transition:filter .15s,transform .15s}
+.primary-button:hover{filter:brightness(1.08);transform:translateY(-2px)}
+.primary-button:active{transform:translateY(3px);box-shadow:0 2px 0 #b94b31}
+.primary-button .button-label{display:flex;align-items:center;justify-content:center;gap:17px;width:100%;line-height:1;text-align:center;transform:translateY(2px)}
+.primary-button i{font:20px "DM Sans",sans-serif;font-style:normal}
+.primary-button small{display:block;width:100%;font:9px/1.2 "DM Sans","Noto Sans KR",sans-serif;font-weight:700;letter-spacing:.1px;color:#fff;text-align:center;transform:translateY(2px)}
+.start-panel > .primary-button{top:-10px}
+.score-mode-button{margin-top:34px;background:linear-gradient(110deg,#e36a42,#b83b32);box-shadow:0 5px 0 #81272b}
+.score-mode-entry{display:flex;justify-content:center;gap:6px;margin-top:10px}
+.score-mode-entry input{width:150px;padding:8px 10px;border:1px solid #ffffff44;border-radius:8px;background:#111923;color:#fff;font:12px "DM Sans","Noto Sans KR",sans-serif;outline:none}
+.score-mode-entry button{padding:8px 11px;border:0;border-radius:8px;background:#ffb15e;color:#261a18;font:700 11px "DM Sans","Noto Sans KR",sans-serif;cursor:pointer}
+.score-mode-entry #rankingButton{background:#687784;color:#fff}
+.start-ranking{margin:10px auto 0;width:min(330px,100%);padding:11px 14px;border:1px solid #ffffff1c;border-radius:12px;background:#ffffff08;text-align:left}
+.start-ranking strong{display:block;margin-bottom:6px;color:#ffd17a;font-size:11px;letter-spacing:1px}
+.start-note{margin-top:14px;color:#85929c;font-size:9px}
+.result-panel{width:min(620px,95vw);padding:30px 38px}
+.result-panel h2{margin:6px 0 20px;font:39px "Black Han Sans",sans-serif}
+.result-panel.game-over{border-color:#ff5e4d88;box-shadow:0 30px 100px #0009,0 0 38px #ff39252a}
+.result-panel.game-over .eyebrow{color:#ff7767}
+.score-mode-result .taste-card,.score-mode-result .ride-result{display:none}
+.score-mode-result .result-scores{display:block}
+.score-mode-result .total-card{max-width:330px;margin:0 auto}
+.result-actions{display:flex;justify-content:center;align-items:center;gap:28px}
+.result-actions .primary-button{min-height:61px;padding:8px 22px}
+.home-button{min-width:150px;border:1px solid #aebcc633;background:linear-gradient(160deg,#8796a2 0%,#62717e 52%,#4a5966 100%);box-shadow:inset 0 1px 0 #ffffff55,0 5px 0 #35434e,0 8px 14px #0003;font-size:16px}
+.home-button:hover{filter:brightness(1.1);box-shadow:inset 0 1px 0 #ffffff65,0 6px 0 #35434e,0 10px 18px #0004}
+.result-scores{display:grid;grid-template-columns:1.12fr .88fr;gap:12px}
+.score-card{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:180px;padding:13px;border:1px solid #ffffff1c;border-radius:17px;background:#ffffff08}
+.score-card span{color:#c3cdd5;font-size:13px;font-weight:800;letter-spacing:.8px}
+.score-card strong{font:clamp(76px,13vw,116px)/.98 "Rubik Dirt","Black Han Sans",sans-serif;letter-spacing:-3px}
+.score-card small{color:#9eabb5;font-size:11px;font-weight:700}
+.total-card{border-color:#ffb45c5e;background:radial-gradient(ellipse at 50% 30%,#fd9b3033,#ffffff07 74%)}
+.total-card strong{color:#ffd17a;text-shadow:0 0 32px #ffa3373d}
+.taste-card{border-color:#ff774545;background:radial-gradient(ellipse at 50% 30%,#ed593021,#ffffff07 74%)}
+.taste-card strong{color:#ff9b72;font-size:clamp(76px,13vw,110px);transform:translateY(12px)}
+.result-stars{margin-top:6px;color:#ffc15c;font-size:15px;letter-spacing:3px}
+.ride-result{display:flex;justify-content:center;align-items:baseline;gap:7px;margin:15px 0 18px;color:#aeb9c1;font-size:11px}
+.ride-result strong{color:#f3f1ea;font:19px "Black Han Sans",sans-serif}
+.ride-result small{color:#7e8992}
+.ranking{margin:12px auto 18px;width:min(330px,100%);padding:11px 14px;border:1px solid #ffffff1c;border-radius:12px;background:#ffffff08;text-align:left}
+.ranking strong{display:block;margin-bottom:6px;color:#ffd17a;font-size:11px;letter-spacing:1px}
+.ranking div{display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:8px;padding:3px 0;color:#c3cdd5;font-size:11px}
+.ranking time{color:#8f9ca5;font-size:9px;white-space:nowrap}
+.ranking b{color:#fff;font-weight:800}
+.ranking-empty{display:block!important;color:#9eabb5!important;text-align:center}
+.mobile-controls{display:none;pointer-events:auto}
+@keyframes pulse{from{opacity:.55}to{opacity:1;text-shadow:0 0 12px #ff863f}}
+@keyframes collision-flash{0%{opacity:0}28%{opacity:.9}100%{opacity:0}}
+@media(max-width:650px){
+ .hud-top{top:12px;left:12px;right:12px}.brand{min-width:0}.brand strong{font-size:clamp(16px,6vw,23px);white-space:nowrap}.brand span{font-size:8px}
+ .race-info{gap:5px}.distance-box{min-width:108px;padding:7px 9px}.distance-box strong{font-size:19px}.distance-box span{font-size:8px}
+ .progress-track{top:76px;width:45vw}.score-chip{padding:7px 10px}.score-chip strong{font-size:20px}
+ .cook-hud{left:10px;bottom:100px;width:min(220px,56vw);padding:9px 10px}
+ .control-hint{display:none}
+ .mobile-controls{position:absolute;left:12px;bottom:16px;display:flex;gap:7px;align-items:center}
+ .mobile-controls button{width:42px;height:42px;border:1px solid #fff6;border-radius:12px;background:#17212bcc;color:white;font:700 12px "DM Sans",sans-serif}
+ .mobile-controls #jumpButton{width:58px;color:#ffd17a}
+ .start-panel,.result-panel{padding:25px 20px}.start-hero-row{min-height:132px;gap:2px}.start-panel h1{font-size:clamp(34px,14vw,58px)}.start-skater{width:min(126px,32vw)}.result-panel h2{font-size:32px}
+ .score-card{min-height:145px}.result-scores{gap:8px}
+ .score-card strong{font-size:clamp(62px,17vw,88px)}
+ .taste-card strong{font-size:clamp(62px,15vw,80px)}
+}
+@media(max-width:650px) and (orientation:portrait){
+ .mobile-controls{left:12px;right:12px;bottom:16px;display:block;height:76px}
+ .mobile-controls button{position:absolute;top:0;width:76px;height:76px;font-size:22px}
+ .mobile-controls #leftButton{left:0}
+ .mobile-controls #rightButton{left:83px}
+ .mobile-controls #jumpButton{right:0;width:104px}
+}
