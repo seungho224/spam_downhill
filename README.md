@@ -1,6 +1,7 @@
 # Spam Downhill
 
 ## 실행
+https://seungho224.github.io/spam_downhill/
 
 Three.js를 CDN에서 불러오므로 인터넷 연결이 필요합니다. ES 모듈은 브라우저의 `file://` 직접 열기에서 제한될 수 있으니, VS Code의 Live Server로 `index.html`을 열거나 프로젝트 폴더에서 아래 명령으로 로컬 서버를 실행하세요.
 
