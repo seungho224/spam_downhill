@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#111a24" />
+    <title>Spam Downhill</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=DM+Sans:wght@400;600;700;800;900&family=Jua&family=Rubik+Dirt&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body>
+    <main id="game">
+      <div id="scene"></div>
+      <div id="collisionFlash" class="collision-flash" aria-hidden="true"></div>
+      <div id="speedLines" class="speed-lines"></div>
+      <section class="hud" id="hud" aria-live="polite">
+        <header class="hud-top">
+          <div class="brand">
+            <strong>SPAM DOWNHILL</strong><span>SPAM DOWNHILL</span>
+          </div>
+          <div class="race-info">
+            <div class="score-chip">
+              <span>주행 점수</span><strong id="rideScore">50</strong
+              ><small>/ 50</small>
+            </div>
+            <div class="score-chip taste-score-chip">
+              <span id="tasteLabel">맛 점수</span
+              ><strong id="tasteScore">0</strong>
+            </div>
+            <div class="distance-box">
+              <span>주행 거리</span
+              ><strong id="distance">0 <small>m</small></strong>
+            </div>
+          </div>
+        </header>
+        <div class="progress-track"><span id="progressBar"></span></div>
+        <div class="cook-hud" id="cookHud">
+          <div class="cook-title">
+            <span>🔥 SPAM SIZZLE</span>
+          </div>
+          <div class="cook-meter" aria-label="뒤집기 타이밍 게이지">
+            <span id="cookMeter"></span><i class="cook-target"></i>
+          </div>
+        </div>
+        <div class="toast" id="toast"></div>
+        <div class="mobile-controls" aria-label="터치 조작">
+          <button id="leftButton" aria-label="왼쪽">◀</button>
+          <button id="jumpButton" aria-label="점프">JUMP</button>
+          <button id="rightButton" aria-label="오른쪽">▶</button>
+        </div>
+        <div class="control-hint">
+          <kbd>A</kbd><kbd>D</kbd> 조향 <kbd>W</kbd> 점프
+          <kbd>S</kbd> 즉시 착지 <kbd>CLICK</kbd> 뒤집기
+        </div>
+      </section>
+
+      <section class="screen" id="startScreen">
+        <div class="start-panel">
+          <div class="eyebrow">FIRST-PERSON DOWNHILL ARCADE</div>
+          <div class="start-hero-row">
+            <h1>SPAM<br /><span>DOWNHILL</span></h1>
+            <svg
+              class="start-skater"
+              viewBox="0 0 200 200"
+              role="img"
+              aria-label="스케이트보드를 타며 스팸을 굽는 요리사"
+            >
+              <defs>
+                <linearGradient id="jacket" x1="0" x2="1" y1="0" y2="1">
+                  <stop offset="0" stop-color="#f6ad63" />
+                  <stop offset="1" stop-color="#d65f43" />
+                </linearGradient>
+                <linearGradient id="pan" x1="0" x2="1" y1="0" y2="1">
+                  <stop offset="0" stop-color="#d7e1df" />
+                  <stop offset=".45" stop-color="#687981" />
+                  <stop offset="1" stop-color="#26343d" />
+                </linearGradient>
+                <linearGradient id="spam" x1="0" x2="0" y1="0" y2="1">
+                  <stop offset="0" stop-color="#ffd1a0" />
+                  <stop offset="1" stop-color="#e68f71" />
+                </linearGradient>
+                <filter
+                  id="heroShadow"
+                  x="-30%"
+                  y="-30%"
+                  width="160%"
+                  height="170%"
+                >
+                  <feGaussianBlur stdDeviation="3" />
+                </filter>
+              </defs>
+              <ellipse
+                cx="102"
+                cy="187"
+                rx="72"
+                ry="8"
+                fill="#07111a"
+                opacity=".35"
+                filter="url(#heroShadow)"
+              />
+              <path
+                d="M29 166 Q99 157 169 165 L161 176 Q99 184 35 175Z"
+                fill="#e88b4d"
+                stroke="#ffd28a"
+                stroke-width="2.5"
+              />
+              <path
+                d="M45 169q54-9 109-2"
+                fill="none"
+                stroke="#ffd89a"
+                stroke-width="2"
+                opacity=".8"
+              />
+              <circle
+                cx="52"
+                cy="181"
+                r="8"
+                fill="#202c39"
+                stroke="#95a0a0"
+                stroke-width="2"
+              />
+              <circle
+                cx="145"
+                cy="180"
+                r="8"
+                fill="#202c39"
+                stroke="#95a0a0"
+                stroke-width="2"
+              />
+              <circle cx="52" cy="181" r="2" fill="#f4d18c" />
+              <circle cx="145" cy="180" r="2" fill="#f4d18c" />
+              <path
+                d="m81 119-8 28-14 10 5 6 21-9 12-29M105 119l11 26 19 8-3 7-24-5-16-28"
+                fill="none"
+                stroke="#26364a"
+                stroke-width="10"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="m54 155 16-5 8 6-4 7-20 4-6-4ZM130 152l17 4 5 7-7 5-18-7Z"
+                fill="#f3e5c7"
+                stroke="#d6c6a9"
+                stroke-width="1.5"
+              />
+              <path
+                d="M78 74q15-9 32 0l11 39-12 16-34-4-7-25Z"
+                fill="url(#jacket)"
+                stroke="#f8c17a"
+                stroke-width="2.5"
+              />
+              <path
+                d="m84 77 9 48M99 81l9 2"
+                fill="none"
+                stroke="#ffe0a2"
+                stroke-width="2"
+                opacity=".75"
+              />
+              <circle cx="96" cy="91" r="2" fill="#fff0c9" />
+              <circle cx="99" cy="101" r="2" fill="#fff0c9" />
+              <path
+                d="m77 82-12 14-1 12 10 4 9-14"
+                fill="none"
+                stroke="#f2b36d"
+                stroke-width="9"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path d="m66 105 8 1 4 5-4 5-9-3-3-4Z" fill="#e8b28a" />
+              <path
+                d="m111 80 13-10 12 6 9-3"
+                fill="none"
+                stroke="#f2b36d"
+                stroke-width="9"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path d="m144 72 7 1 4 5-5 5-8-3-3-4Z" fill="#e8b28a" />
+              <path
+                d="m151 77 13-8"
+                stroke="#6b4c39"
+                stroke-width="5"
+                stroke-linecap="round"
+              />
+              <ellipse
+                cx="174"
+                cy="62"
+                rx="22"
+                ry="13"
+                transform="rotate(-18 174 62)"
+                fill="url(#pan)"
+                stroke="#e0e5dc"
+                stroke-width="3"
+              />
+              <ellipse
+                cx="174"
+                cy="61"
+                rx="16"
+                ry="8"
+                transform="rotate(-18 174 61)"
+                fill="#313c40"
+                stroke="#9da9a5"
+                stroke-width="1.4"
+              />
+              <g
+                transform="rotate(-18 174 61)"
+                stroke="#f5b98d"
+                stroke-width="1"
+              >
+                <rect
+                  x="162"
+                  y="56"
+                  width="7"
+                  height="5"
+                  rx="1.8"
+                  fill="url(#spam)"
+                />
+                <rect
+                  x="170"
+                  y="54"
+                  width="7"
+                  height="5"
+                  rx="1.8"
+                  fill="url(#spam)"
+                />
+                <rect
+                  x="178"
+                  y="55"
+                  width="7"
+                  height="5"
+                  rx="1.8"
+                  fill="url(#spam)"
+                />
+                <rect
+                  x="165"
+                  y="62"
+                  width="7"
+                  height="5"
+                  rx="1.8"
+                  fill="url(#spam)"
+                />
+                <rect
+                  x="173"
+                  y="61"
+                  width="7"
+                  height="5"
+                  rx="1.8"
+                  fill="url(#spam)"
+                />
+                <rect
+                  x="181"
+                  y="61"
+                  width="7"
+                  height="5"
+                  rx="1.8"
+                  fill="url(#spam)"
+                />
+                <rect
+                  x="172"
+                  y="67"
+                  width="7"
+                  height="4"
+                  rx="1.8"
+                  fill="url(#spam)"
+                />
+              </g>
+              <path
+                d="M79 69q-5-23 15-27 21 1 18 28l-10 10-17-2Z"
+                fill="#e8b28a"
+                stroke="#c88868"
+                stroke-width="1.5"
+              />
+              <path
+                d="M76 57q1-23 22-24 18 2 20 18-13-7-25-6-7 8-17 12"
+                fill="#293340"
+              />
+              <path
+                d="m78 45-7-7 17-12 24 5 8 10-8 3-3-6-21-2Z"
+                fill="#ed7950"
+                stroke="#ffbf79"
+                stroke-width="1.5"
+              />
+              <path
+                d="m91 61 4 1M105 60l3-1"
+                stroke="#533a31"
+                stroke-width="1.8"
+                stroke-linecap="round"
+              />
+              <path
+                d="M96 51q8 3 13 0"
+                fill="none"
+                stroke="#f4c783"
+                stroke-width="2"
+              />
+            </svg>
+          </div>
+          <p>
+            쏟아지는 도심 교통을 뚫고 달리며,<br />스팸 7장을 완벽하게 구워라.
+          </p>
+          <div class="instructions">
+            <div><b>A / D · ← / →</b><span>차선을 바꾸고 차를 피하기</span></div>
+            <div><b>W · ↑</b><span>장애물을 점프로 뛰어넘기</span></div>
+            <div><b>S · ↓</b><span>점프 중 즉시 착지하기</span></div>
+            <div>
+              <b>화면 클릭</b><span>적절한 타이밍에 스팸 뒤집기</span>
+            </div>
+          </div>
+          <button class="primary-button" id="startButton">
+            <span class="button-label">
+              <span>일반모드 시작하기</span><i>→</i>
+            </span>
+            <small>정해진 구간을 완벽히 주행합니다.</small>
+          </button>
+          <button class="primary-button score-mode-button" id="scoreModeButton">
+            <span class="button-label">
+              <span>무한모드 시작하기</span><i>→</i>
+            </span>
+            <small>끝없이 달려 최고 기록에 도전합니다.</small>
+          </button>
+          <div class="score-mode-entry hidden" id="scoreModeEntry">
+            <div class="score-mode-controls">
+              <input id="nickname" maxlength="12" placeholder="닉네임 입력" />
+              <button id="scoreModeStart">무한모드 입장</button>
+              <button id="rankingButton" type="button">순위표 확인</button>
+            </div>
+            <p class="score-mode-warning">
+              스팸을 두 번 잘못 뒤집으면 게임 오버됩니다!
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <div class="ranking-modal hidden" id="rankingModal" role="dialog" aria-modal="true" aria-labelledby="rankingModalTitle">
+        <div class="ranking-modal-panel">
+          <div class="ranking-modal-header">
+            <div>
+              <strong id="rankingModalTitle">TOP 10</strong>
+              <small>최고 기록</small>
+            </div>
+            <button id="rankingCloseButton" type="button" aria-label="순위표 닫기">×</button>
+          </div>
+          <div class="ranking" id="startRanking"></div>
+        </div>
+      </div>
+
+      <section class="screen hidden" id="resultScreen">
+        <div class="result-panel">
+          <div class="eyebrow" id="resultEyebrow">FINISH LINE</div>
+          <h2 id="resultHeading">평가</h2>
+          <div class="result-scores">
+            <div class="score-card total-card">
+              <span id="finalScoreLabel">최종 점수</span>
+              <strong id="finalTotal">0</strong>
+              <small id="finalTotalLimit">/ 100</small>
+            </div>
+            <div class="score-card taste-card">
+              <span>맛 점수</span>
+              <strong id="finalCook">0</strong>
+              <div class="result-stars" id="resultStars">☆☆☆☆☆</div>
+            </div>
+          </div>
+          <div class="ride-result">
+            <span>주행 점수</span><strong id="finalRide">0</strong
+            ><small>/ 50</small>
+          </div>
+          <p class="ranking-notice hidden" id="rankingNotice"></p>
+          <div class="ranking hidden" id="ranking"></div>
+          <div class="result-actions">
+            <button class="primary-button home-button" id="homeButton">
+              처음으로
+            </button>
+            <button class="primary-button" id="retryButton">
+              다시 시도하기 <span>↻</span>
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+    <script type="module" src="./js/main.js"></script>
+  </body>
+</html>
